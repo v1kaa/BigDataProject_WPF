@@ -1,0 +1,228 @@
+﻿<Window x:Class="BigDataProj.TemperatureSalesWindow"  
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+       xmlns:oxy="http://oxyplot.org/wpf"  
+     
+       xmlns:local="clr-namespace:BigDataProj"  
+       Title="TemperatureSalesWindow" Height="450" Width="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2c3e50" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock x:Name="TitleText" 
+                          Text="Temperature vs Sales Analysis" 
+                          Foreground="White" 
+                          FontSize="24" 
+                          FontWeight="Bold" 
+                          HorizontalAlignment="Center"/>
+                <TextBlock x:Name="DateRangeText" 
+                          Foreground="#ecf0f1" 
+                          FontSize="14" 
+                          HorizontalAlignment="Center" 
+                          Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Chart Area -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,20,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Sales Performance by Temperature" 
+                              FontSize="18" FontWeight="SemiBold" 
+                              Foreground="#2c3e50" Margin="0,0,0,15"/>
+
+                    <!-- OxyPlot Chart -->
+                    <oxy:PlotView Grid.Row="1" x:Name="TemperatureChart" 
+                                 Background="White" 
+                                 Margin="0,0,0,10"/>
+
+                    <!-- Chart Controls -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="ShowTrendLineButton" 
+                               Content="Show Trend Line" 
+                               Margin="0,0,10,0" 
+                               Click="ShowTrendLineButton_Click"
+                               Background="#3498db"
+                               Foreground="White"
+                               BorderThickness="0"
+                               Padding="10,5"/>
+                        <!--<Button x:Name="ShowDataPointsButton" 
+                               Content="Hide Data Points" 
+                               Click="ShowDataPointsButton_Click"
+                               Background="#27ae60"
+                               Foreground="White"
+                               BorderThickness="0"
+                               Padding="10,5"/>-->
+                        <Button x:Name="ShowDataPointsButton" 
+       Content="View Regression Analysis" 
+       Click="ShowAnalysisButton_Click"
+       Background="#27ae60"
+       Foreground="White"
+       BorderThickness="0"
+       Padding="10,5"/>
+                        <!--<StackPanel>
+                            <Button Content="Pokaż analizę regresji" Click="ShowAnalysisButton_Click" Margin="5"/>
+                        </StackPanel>-->
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Statistics Panel -->
+            <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Temperature Statistics" 
+                              FontSize="18" FontWeight="SemiBold" 
+                              Foreground="#2c3e50" Margin="0,0,0,15"/>
+
+                    <!-- Key Metrics -->
+                    <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                        <Border Background="#ecf0f1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Optimal Temperature" FontWeight="SemiBold" Foreground="#2c3e50"/>
+                                <TextBlock x:Name="OptimalTempText" FontSize="20" FontWeight="Bold" Foreground="#e74c3c"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#ecf0f1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Peak Sales" FontWeight="SemiBold" Foreground="#2c3e50"/>
+                                <TextBlock x:Name="PeakSalesText" FontSize="20" FontWeight="Bold" Foreground="#27ae60"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#ecf0f1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Correlation" FontWeight="SemiBold" Foreground="#2c3e50"/>
+                                <TextBlock x:Name="CorrelationText" FontSize="20" FontWeight="Bold" Foreground="#3498db"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="#ecf0f1" CornerRadius="5" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="r^2" FontWeight="SemiBold" Foreground="#2c3e50"/>
+                                <TextBlock x:Name="R2Text" FontWeight="Bold" FontSize="20"  Text="hello its r2 wspolczynik " Foreground="#3498db" />
+
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Temperature Ranges -->
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="Temperature Ranges" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="#2c3e50"/>
+                            <ItemsControl x:Name="TemperatureRangesControl">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#f8f9fa" CornerRadius="5" Padding="8" Margin="0,0,0,5">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding RangeLabel}" FontWeight="SemiBold" FontSize="12"/>
+                                                    <TextBlock Text="{Binding TemperatureRange}" FontSize="10" Foreground="#7f8c8d"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding FormattedSales}" FontWeight="Bold" FontSize="12"/>
+                                                    <TextBlock Text="{Binding TransactionCount}" FontSize="10" Foreground="#7f8c8d"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Summary Footer -->
+        <Border Grid.Row="2" Background="#34495e" CornerRadius="8" Padding="15" Margin="0,20,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="Temperature Range: " Foreground="#bdc3c7" FontSize="14"/>
+                    <TextBlock x:Name="TemperatureRangeText" Foreground="White" FontSize="14" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="TotalSalesText" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text=" | " Foreground="#bdc3c7" FontSize="16" Margin="20,0"/>
+                    <TextBlock x:Name="TotalTransactionsText" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Average Sale: " Foreground="#bdc3c7" FontSize="14"/>
+                    <TextBlock x:Name="AverageSaleText" Foreground="White" FontSize="14" FontWeight="SemiBold"/>
+                    
+                </StackPanel>
+               
+                
+            </Grid>
+           
+        </Border>
+        
+
+    </Grid>
+
+    <Window.Resources>
+        <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="#3498db"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="3" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="#2980b9"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2980b9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+</Window>

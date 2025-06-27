@@ -1,0 +1,68 @@
+﻿<Window x:Class="BigDataProj.Analyze"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BigDataProj"
+        mc:Ignorable="d"
+        Title="Sales Analysis" Height="500" Width="850"
+        Background="#F8F9FA">
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="Auto" >
+
+            <!-- Header -->
+            <TextBlock Text="Sales Analysis Dashboard" FontSize="20" FontWeight="Bold"
+                       Foreground="#333" Margin="0 0 0 20" TextAlignment="Center"/>
+
+            <!-- Date Range Picker -->
+            <GroupBox Header="Choose Date Range" FontSize="14" Padding="10" Margin="0 0 0 20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock Text="From:" VerticalAlignment="Center" Margin="10 0"/>
+                    <DatePicker x:Name="StartDatePicker" Width="140" Margin="5"/>
+                    <TextBlock Text="To:" VerticalAlignment="Center" Margin="10 0"/>
+                    <DatePicker x:Name="EndDatePicker" Width="140" Margin="5"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20">
+                <Button x:Name="AnalyzeButton" Content="Fast Analyze" Width="120" Height="35" Margin="10"
+                        Background="#4CAF50" Foreground="White" FontWeight="SemiBold"
+                        Click="AnalyzeButton_Click"/>
+                <Button x:Name="CleanData" Content="Clear Data" Width="120" Height="35" Margin="10"
+                        Background="#F44336" Foreground="White" FontWeight="SemiBold"
+                        Click="CleanData_Click"/>
+            </StackPanel>
+
+            <!-- Data Display -->
+            <GroupBox Header="Sales Data" FontSize="14" Padding="10" Margin="0 0 0 20">
+                <ListView x:Name="SalesDataListView" Height="150">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="120"/>
+                            <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Product}" Width="150"/>
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="100"/>
+                            <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+
+            <!-- Analysis Result -->
+            <TextBlock x:Name="AnalysisResult" Margin="0 0 0 20" FontSize="14" Foreground="#444" TextWrapping="Wrap"/>
+
+            <!-- Additional Actions -->
+            <GroupBox Header="Further Analysis" FontSize="14" Padding="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="ConditionStatistics" Content="Sales by Weather" Margin="10" Width="140" Height="35"
+                            ToolTip="Sales stats categorized by weather conditions like overcast, rain, snow, clear, etc."
+                            Click="ConditionStatiscticsButton_Click"/>
+                    <Button Name="TemperatireSales" Content="Temperature Sales" Margin="10" Width="140" Height="35"
+                            Click="TemperatureSales_Click"/>
+                    <Button Name="SalesOverTime" Content="Sales Over Time" Margin="10" Width="140" Height="35"
+                            Click="SalesOverTime_Click"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>

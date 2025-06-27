@@ -1,0 +1,159 @@
+﻿<Window x:Class="BigDataProj.ConditionStatisticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BigDataProj"
+        mc:Ignorable="d"
+        Title="ConditionStatisticsWindow" Height="450" Width="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2c3e50" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock x:Name="TitleText" 
+                          Text="Weather Condition Sales Statistics" 
+                          Foreground="White" 
+                          FontSize="24" 
+                          FontWeight="Bold" 
+                          HorizontalAlignment="Center"/>
+                <TextBlock x:Name="DateRangeText" 
+                          Foreground="#ecf0f1" 
+                          FontSize="14" 
+                          HorizontalAlignment="Center" 
+                          Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Chart Area - Visual Bar Chart -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="15" Margin="0,0,10,0"
+                    >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Sales by Weather Condition" 
+                              FontSize="18" FontWeight="SemiBold" 
+                              Foreground="#2c3e50" Margin="0,0,0,15"/>
+
+                    <!-- Custom Visual Chart -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="ChartItemsControl" Margin="10">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Condition Label -->
+                                        <TextBlock Grid.Column="0" Text="{Binding Condition}" 
+                                                  VerticalAlignment="Center" 
+                                                  FontWeight="SemiBold"
+                                                  TextTrimming="CharacterEllipsis"/>
+
+                                        <!-- Visual Bar -->
+                                        <Grid Grid.Column="1" Margin="10,0">
+                                            <Border Background="#ecf0f1" Height="25" CornerRadius="12"/>
+                                            <Border Background="{Binding BarColor}" 
+                                                   Height="25" 
+                                                   CornerRadius="12"
+                                                   HorizontalAlignment="Left"
+                                                   Width="{Binding BarWidth}">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="Black" Opacity="0.2" ShadowDepth="1" BlurRadius="3"/>
+                                                </Border.Effect>
+                                            </Border>
+                                            <TextBlock Text="{Binding PercentageText}" 
+                                                      VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Center"
+                                                      Foreground="White" 
+                                                      FontWeight="Bold"
+                                                      FontSize="12"/>
+                                        </Grid>
+
+                                        <!-- Value Label -->
+                                        <TextBlock Grid.Column="2" Text="{Binding FormattedTotalSales}" 
+                                                  VerticalAlignment="Center" 
+                                                  HorizontalAlignment="Right"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#2c3e50"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Statistics Table -->
+            <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="15"
+                    >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Detailed Statistics" 
+                              FontSize="18" FontWeight="SemiBold" 
+                              Foreground="#2c3e50" Margin="0,0,0,15"/>
+
+                    <DataGrid Grid.Row="1" x:Name="StatsDataGrid" 
+                             AutoGenerateColumns="False"
+                             IsReadOnly="True"
+                             GridLinesVisibility="None"
+                             HeadersVisibility="Column"
+                             Background="Transparent"
+                             BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Condition" Binding="{Binding Condition}" Width="*"/>
+                            <DataGridTextColumn Header="Total Sales" Binding="{Binding FormattedTotalSales}" Width="Auto"/>
+                            <DataGridTextColumn Header="Count" Binding="{Binding SalesCount}" Width="Auto"/>
+                            <DataGridTextColumn Header="Average" Binding="{Binding FormattedAverageSale}" Width="Auto"/>
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#f8f9fa"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Summary Footer -->
+        <Border Grid.Row="2" Background="#34495e" CornerRadius="8" Padding="15" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="TotalSalesText" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                <TextBlock Text=" | " Foreground="#bdc3c7" FontSize="16" Margin="20,0"/>
+                <TextBlock x:Name="TotalTransactionsText" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+    <Window.Resources>
+        <DropShadowEffect x:Key="DropShadow" Color="Black" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
+    </Window.Resources>
+</Window>

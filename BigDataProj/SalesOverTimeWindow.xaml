@@ -1,0 +1,40 @@
+﻿<Window x:Class="BigDataProj.SalesOverTimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        Title="Sprzedaż" Height="500" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Panel kontrolny -->
+        <Border Grid.Row="0" Background="#F5F5F5" Padding="10" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Grupowanie:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold"/>
+                <ComboBox x:Name="GroupingComboBox" Width="150" SelectedIndex="0" SelectionChanged="GroupingComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Każdy dzień" Tag="Daily"/>
+                    <ComboBoxItem Content="Tygodniowo" Tag="Weekly"/>
+                    <ComboBoxItem Content="Miesięcznie" Tag="Monthly"/>
+                    <ComboBoxItem Content="Dni tygodnia" Tag="DaysOfWeek"/>
+                </ComboBox>
+
+                <Separator Margin="20,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+                <TextBlock Text="Agregacja:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold"/>
+                <ComboBox x:Name="AggregationComboBox" Width="120" SelectedIndex="0" SelectionChanged="AggregationComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Suma" Tag="Sum"/>
+                    <ComboBoxItem Content="Średnia" Tag="Average"/>
+                    <ComboBoxItem Content="Maksimum" Tag="Max"/>
+                    <ComboBoxItem Content="Minimum" Tag="Min"/>
+                </ComboBox>
+
+                <Button x:Name="RefreshButton" Content="Odśwież" Margin="20,0,0,0" Padding="10,5" Click="RefreshButton_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Wykres -->
+        <oxy:PlotView x:Name="SalesPlot" Grid.Row="1" Margin="5"/>
+    </Grid>
+</Window>

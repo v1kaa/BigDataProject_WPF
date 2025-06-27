@@ -1,0 +1,22 @@
+﻿# Visual Studio
+.vs/
+bin/
+obj/
+publish/
+
+# Pliki użytkownika
+*.user
+*.suo
+
+# Pliki kompilacji
+*.exe
+*.dll
+*.pdb
+*.cache
+
+# Logi
+*.log
+
+# Packages
+packages/
+*.nupkg
